@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo da Alíquota do IR</title>
+</head>
+<body>
+    <h1>Cálculo da Alíquota do IR para CDB</h1>
+    <label for="dataVencimento">Data de Vencimento:</label>
+    <input type="date" id="dataVencimento" required>
+    <button onclick="calcularAliquota()">Calcular Alíquota</button>
+    <p id="resultado"></p>
+
+    <script>
+        // Função para calcular a alíquota do IR com base no número de dias do investimento
+        function calcularAliquotaIR(dataVencimento) {
+            // Obtém a data atual
+            const inicio = new Date();
+            
+            // Converte a data de vencimento para objeto Date
+            const vencimento = new Date(dataVencimento);
+            
+            // Calcula a diferença em milissegundos e depois converte para dias
+            const umDia = 1000 * 60 * 60 * 24;
+            const diferencaDias = Math.round((vencimento - inicio) / umDia);
+
+            // Determina a alíquota com base no número de dias
+            let aliquota;
+            if (diferencaDias <= 180) {
+                aliquota = 22.5;
+            } else if (diferencaDias <= 360) {
+                aliquota = 20.0;
+            } else if (diferencaDias <= 720) {
+                aliquota = 17.5;
+            } else {
+                aliquota = 15.0;
+            }
+
+            return aliquota;
+        }
+
+        // Função que é chamada ao clicar no botão
+        function calcularAliquota() {
+            const dataVencimento = document.getElementById('dataVencimento').value;
+            if (!dataVencimento) {
+                alert('Por favor, insira uma data de vencimento válida.');
+                return;
+            }
+
+            const aliquota = calcularAliquotaIR(dataVencimento);
+            document.getElementById('resultado').innerText = `A alíquota do IR é: ${aliquota}%`;
+        }
+    </script>
+</body>
+</html>
